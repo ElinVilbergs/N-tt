@@ -71,14 +71,5 @@ class CustomerService:
     def ui_menu_4(self):
         #Unregister a customer
         ssn = input("Enter the Social security number: ")
-        with open(".customer.csv", "r") as inp, open('.newcustomer.csv', 'w') as out:
 
-            writer = csv.DictWriter(out, fieldnames=['Name', 'Email', 'Social Security number', "Phone number"])
-            writer.writeheader()
-            for row in csv.DictReader(inp):
-                if row['Social Security number'] != ssn:
-                    writer.writerow(row)
-        os.remove(".customer.csv")
-        os.rename(".newcustomer.csv", ".customer.csv")
-
-
+        CustomerRepository.unregister_customer(self, ssn)

@@ -49,3 +49,16 @@ class CustomerRepository:
 
         os.remove(".customer.csv")
         os.rename(".newcustomer.csv", ".customer.csv")
+
+    def unregister_customer(self, ssn):
+        with open(".customer.csv", "r") as inp, open('.newcustomer.csv', 'w') as out:
+
+            writer = csv.DictWriter(out, fieldnames=['Name', 'Email', 'Social Security number', "Phone number"])
+            writer.writeheader()
+            for row in csv.DictReader(inp):
+                if row['Social Security number'] != ssn:
+                    writer.writerow(row)
+        
+        os.remove(".customer.csv")
+        os.rename(".newcustomer.csv", ".customer.csv")
+
