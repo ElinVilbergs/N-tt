@@ -1,0 +1,6 @@
+Customer SSN,Car category,Plate,Starting date,Credit card,Ending date,Extra insurance,Payment method
+0804962149,1,AA-112,16/12/2018,1234567812345678,23/12/2018,y,Cash
+2321312312,1,AB-111,12/12/2018,1,18/12/2018,n,Credit card
+222,1,AB-112,15/12/2022,2,20/12/2022,y,Credit card
+12,1,AA-111,14/12/2020,1,19/12/2020,y,Credit card
+0804962149,1,AA-111,14/12/2018,4234312,20/12/2018,y,Credit card
