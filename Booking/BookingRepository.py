@@ -23,7 +23,12 @@ class BookingRepository:
 
 
     def get_booking(self):
-        pass
+        with open(".booking.csv", "r", encoding="utf-8", newline="") as findbooking:
+            plate_num = input("Enter plate number: ")
+            findbookingreader = csv.DictReader(findbooking)
+            for line in findbookingreader:
+                if line["Plate"] == plate_num:
+                    print(line)
 
     def add_to_booking(self, plate_num):
         with open('availablecars.csv', 'r', encoding="utf-8", newline="") as inp, open('rentedcars.csv', 'a+', encoding="utf-8", newline="") as out:
@@ -41,3 +46,55 @@ class BookingRepository:
         os.remove("availablecars.csv")
         os.rename("updatecars.csv", "availablecars.csv")
 
+    
+    def change_booking(self, plate_num):
+        with open(".booking.csv", "r", encoding="utf-8", newline="") as inp, open('newbooking.csv', 'w', encoding="utf-8", newline="") as out:
+            writer = csv.DictWriter(out, fieldnames=['Customer SSN', 'Car category', 'Plate', "Starting date", "Credit card", "Ending date", "Extra insurance", "Payment method"])
+            writer.writeheader()
+            for row in csv.DictReader(inp):
+                if row['Plate'] != plate_num:
+                    writer.writerow(row)
+
+        os.remove(".booking.csv")
+        os.rename("newbooking.csv", ".booking.csv")
+
+        with open('.rentedcars.csv', 'r', encoding="utf-8", newline="") as inp, open('availablecars.csv', 'a+', encoding="utf-8", newline="") as out:
+            writer = csv.DictWriter(out, fieldnames=['Plate', 'Make'])
+            for row in csv.DictReader(inp):
+                if row['Plate'] == plate_num:
+                    writer.writerow(row)
+
+        with open('.rentedcars.csv', 'r', encoding="utf-8", newline="") as inp, open('updatecars.csv', 'w', encoding="utf-8", newline="") as out:
+            writer = csv.DictWriter(out, fieldnames=['Plate', 'Make'])
+            writer.writeheader()
+            for row in csv.DictReader(inp):
+                if row['Plate'] != plate_num:
+                    writer.writerow(row)
+        os.remove(".rentedcars.csv")
+        os.rename("updatecars.csv", ".rentedcars.csv")
+
+    def remove_booking(self, plate_num):
+        
+        with open('.rentedcars.csv', 'r', encoding="utf-8", newline="") as inp, open('availablecars.csv', 'a+', encoding="utf-8", newline="") as out:
+            writer = csv.DictWriter(out, fieldnames=['Plate', 'Make'])
+            for row in csv.DictReader(inp):
+                if row['Plate'] == plate_num:
+                    writer.writerow(row)
+
+        with open('.rentedcars.csv', 'r', encoding="utf-8", newline="") as inp, open('updatecars.csv', 'w', encoding="utf-8", newline="") as out:
+            writer = csv.DictWriter(out, fieldnames=['Plate', 'Make'])
+            writer.writeheader()
+            for row in csv.DictReader(inp):
+                if row['Plate'] != plate_num:
+                    writer.writerow(row)
+        os.remove(".rentedcars.csv")
+        os.rename("updatecars.csv", ".rentedcars.csv")
+
+        with open(".booking.csv", "r", encoding="utf-8", newline="") as inp, open('newbooking.csv', 'w', encoding="utf-8", newline="") as out:
+            writer = csv.DictWriter(out, fieldnames=['Customer SSN', 'Car category', 'Plate', "Starting date", "Credit card", "Ending date", "Extra insurance", "Payment method"])
+            writer.writeheader()
+            for row in csv.DictReader(inp):
+                if row['Plate'] != plate_num:
+                    writer.writerow(row)
+        os.remove(".booking.csv")
+        os.rename("newbooking.csv", ".booking.csv")
